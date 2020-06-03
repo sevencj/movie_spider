@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>scorpio电影</title>
+	<style>
+		/*解决页面浮动后的塌陷问题*/
+		.clearfix{
+			zoom: 1;
+		}
+		.clearfix:after{
+			content: "";display: block;visibility: hidden;line-height: 0;clear: both;
+		}
+		
+		body,div{
+			margin: 0 auto;
+		}
+		
+		div{
+			border: 0.0625rem solid gray;
+			width: 46.875rem;
+			text-align: center;
+		}
+		
+		ul{
+			list-style-type: none;
+			display: inline-block;
+		}
+		
+		#header li{
+			float: left;
+			margin-left: 0.625rem;
+			font-size: 1rem;
+			font-family: '微软雅黑';
+			color: #666666;
+		}
+		
+		#header li:hover{
+			cursor: pointer;
+			background-color: blue;
+			color: white;
+		}
+		
+		#content li{
+			float: left;
+			display: inline;
+			margin-right: 0.9375rem;
+			text-align: center;
+			height: 14.0625rem;
+			overflow: hidden;
+			padding-top: 0.625rem;
+			padding-bottom: 0.3125rem;
+		}
+		
+		#content h1{
+			font-size: 0.875rem;
+			margin: 0;
+		}
+		
+		.tip{
+			display: block;
+			font-size: 0.75rem;
+		}
+		
+		.h1,.tip{
+			width: 6.875rem;
+			text-align: center;
+		}
+		
+		#content ul{
+			/*去除ul的内边距和外边距*/
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+<body>
+	<div id="header" class="clearfix">
+		<ul class="clearfix">
+			<li>首页</li>
+			<li>电影</li>
+			<li>电视剧</li>
+			<li>动漫</li>
+			<li>综艺</li>
+			<li>音乐</li>
+			<li>MV</li>
+			<li>视频</li>
+			<li>短片</li>
+			<li>公开课</li>
+		</ul>
+	</div>
+	
+	<div id="content">
+		<ul class="clearfix">
+            {% for movie in per_page_data %}
+                <li>
+                    <a href="{{ movie.mlink }}"><img src="{{ movie.mimg }}"/></a>
+                    <h1 class="h1">{{ movie.mname }}</h1>
+                    <span class="tip">{{ movie.mdesc }}</span>
+                </li>
+            {% endfor %}
+		</ul>
+		
+	</div>
+    <div>
+        <a href="/movie/index/?num=1">首页</a>&emsp;
+        {% if per_page_data.has_previous %}
+            <a href="/movie/index/?num={{ per_page_data.previous_page_number }}">上一页</a>&emsp;
+        {% endif %}
+            {% for n in page_range %}
+                {% if current_page == n  %}
+                    <a href="/movie/index/?num={{ n }}" style="font-size: 28px;color: aqua; ">{{ n }}</a>&emsp;
+                {% else %}
+                    <a href="/movie/index/?num={{ n }}">{{ n }}</a>&emsp;
+                {% endif %}
+            {% endfor %}
+
+
+        {% if per_page_data.has_next %}
+            <a href="/movie/index/?num={{ per_page_data.next_page_number }}">下一页</a>
+        {% endif %}
+        &emsp;<a href="/movie/index/?num={{ pager.num_pages }}">尾页</a>
+    </div>
+
+</body>
+</html>
